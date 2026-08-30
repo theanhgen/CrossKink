@@ -105,13 +105,23 @@ class OptionPopup {
       return true;
     }
 
-    if (input.wasPressed(MappedInputManager::Button::Up) || input.wasPressed(MappedInputManager::Button::Left)) {
+    // See ButtonNavigator::getNextButtons: the Left/Right aliases exist for
+    // devices with no d-pad, and read as a bug on one that has it.
+#if CROSSINK_HAS_DPAD
+    const bool navPrev = input.wasPressed(MappedInputManager::Button::Up);
+    const bool navNext = input.wasPressed(MappedInputManager::Button::Down);
+#else
+    const bool navPrev = input.wasPressed(MappedInputManager::Button::Up) ||
+                         input.wasPressed(MappedInputManager::Button::Left);
+    const bool navNext = input.wasPressed(MappedInputManager::Button::Down) ||
+                         input.wasPressed(MappedInputManager::Button::Right);
+#endif
+    if (navPrev) {
       selectedIndex = (selectedIndex - 1 + count) % count;
       layoutValid = false;
       requestUpdate();
       return true;
-    } else if (input.wasPressed(MappedInputManager::Button::Down) ||
-               input.wasPressed(MappedInputManager::Button::Right)) {
+    } else if (navNext) {
       selectedIndex = (selectedIndex + 1) % count;
       layoutValid = false;
       requestUpdate();

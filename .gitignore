@@ -47,6 +47,10 @@ dist-publish/
 /managed_components/
 /.dummy/
 /CMakeLists.txt
+# ...except ours. Upstream ignores CMakeLists.txt because PlatformIO generates
+# one for IDE integration. In this fork it is the actual cross-build for the
+# Kindle target and must be committed, or a fresh clone cannot build.
+!/CMakeLists.txt
 /dependencies.lock
 /sdkconfig.*
 

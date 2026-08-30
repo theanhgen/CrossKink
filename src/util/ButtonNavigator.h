@@ -44,10 +44,23 @@ class ButtonNavigator final {
   [[nodiscard]] static int nextPageIndex(int currentIndex, int totalItems, int itemsPerPage);
   [[nodiscard]] static int previousPageIndex(int currentIndex, int totalItems, int itemsPerPage);
 
+  // On a device whose only nav buttons are a row of four under the screen,
+  // Left/Right are the natural second pair for walking a list, so upstream
+  // aliases them onto Up/Down. A device with a real 5-way d-pad reads that as
+  // a bug: pressing right moves the cursor *down*. Where CROSSINK_HAS_DPAD is
+  // set, the horizontal axis is left free for horizontal meaning.
   [[nodiscard]] static Buttons getNextButtons() {
+#if CROSSINK_HAS_DPAD
+    return {MappedInputManager::Button::Down};
+#else
     return {MappedInputManager::Button::Down, MappedInputManager::Button::Right};
+#endif
   }
   [[nodiscard]] static Buttons getPreviousButtons() {
+#if CROSSINK_HAS_DPAD
+    return {MappedInputManager::Button::Up};
+#else
     return {MappedInputManager::Button::Up, MappedInputManager::Button::Left};
+#endif
   }
 };

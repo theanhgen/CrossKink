@@ -713,8 +713,15 @@ void SettingsActivity::loop() {
   if (mappedInput.wasReleased(MappedInputManager::Button::Confirm)) {
     showSettingSelection = true;
     if (selectedSettingIndex == 0) {
+#if CROSSINK_HAS_DPAD
+      // With a d-pad, Left/Right walk the tabs (below) and confirm means
+      // "go in". Cycling categories on confirm is a no-d-pad affordance and
+      // reads as the button doing something unrelated to selection.
+      moveSelectionIntoRows();
+#else
       enterCategory((selectedCategoryIndex < categoryCount - 1) ? (selectedCategoryIndex + 1) : 0);
       hasChangedCategory = true;
+#endif
       requestUpdate();
     } else {
       toggleCurrentSetting();
@@ -793,6 +800,22 @@ void SettingsActivity::loop() {
     moveSelection(ButtonNavigator::previousIndex(selectedSettingIndex, settingsCount + 1), false);
   });
 
+#if CROSSINK_HAS_DPAD
+  // Horizontal axis walks the tab band, which is what the tabs look like they do.
+  if (mappedInput.wasPressed(MappedInputManager::Button::Right)) {
+    hasChangedCategory = true;
+    showSettingSelection = true;
+    enterCategory(ButtonNavigator::nextIndex(selectedCategoryIndex, categoryCount));
+    requestUpdate();
+  }
+  if (mappedInput.wasPressed(MappedInputManager::Button::Left)) {
+    hasChangedCategory = true;
+    showSettingSelection = true;
+    enterCategory(ButtonNavigator::previousIndex(selectedCategoryIndex, categoryCount));
+    requestUpdate();
+  }
+#endif
+
   buttonNavigator.onNextContinuous([this, &hasChangedCategory] {
     hasChangedCategory = true;
     showSettingSelection = true;
@@ -821,6 +844,26 @@ void SettingsActivity::loop() {
       selectedSettingIndex = nextIndex;
     }
   }
+}
+
+void SettingsActivity::moveSelectionIntoRows() {
+  if (settingsCount <= 0) {
+    return;
+  }
+  int index = 1;
+  // Section headers are not selectable; walk past any leading run of them.
+  while (index <= settingsCount && (*currentSettings)[index - 1].type == SettingType::SECTION_HEADER) {
+    const int next = ButtonNavigator::nextIndex(index, settingsCount + 1);
+    if (next <= index) {
+      return;  // nothing selectable in this category; stay on the tab band
+    }
+    index = next;
+  }
+  if (index == 0 || index > settingsCount) {
+    return;
+  }
+  selectedSettingIndex = index;
+  topIndex = followListSelection(selectedSettingIndex - 1, topIndex, visibleRows, settingsCount);
 }
 
 void SettingsActivity::toggleCurrentSetting() {

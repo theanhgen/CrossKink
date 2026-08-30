@@ -288,6 +288,9 @@ class SettingsActivity final : public Activity {
   void openScreenMarginPicker(const SettingInfo& setting);
   void openLanguagePicker();
   void openIdleTimeThresholdPicker();
+  // Move the selection off the tab band and onto the first selectable row,
+  // skipping section headers. Used where confirm means "go in" (d-pad builds).
+  void moveSelectionIntoRows();
   void toggleCurrentSetting();
   void openSleepTimeoutPicker();
   void openLineHeightPicker();

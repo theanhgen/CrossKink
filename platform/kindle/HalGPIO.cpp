@@ -65,14 +65,22 @@ unsigned long menuDownAt = 0;
 uint8_t buttonForKey(uint16_t code) {
   using namespace kindlekeys;
   switch (code) {
-    // Page-turn bars. Both edges carry a pair; previous/next map onto the
-    // same LEFT/RIGHT the 5-way uses, so page turns work from either hand.
+    // Page-turn bars. Both edges carry a pair.
+    //
+    // These belong on UP/DOWN, not LEFT/RIGHT. CrossInk's page-turn channel is
+    // its *side* buttons, and kSideLayouts (MappedInputManager.cpp) wires
+    // Button::PageBack/PageForward to BTN_UP/BTN_DOWN -- on the Xteink the side
+    // rocker is physically vertical. Putting the bars on LEFT/RIGHT still
+    // turned pages, because the reader treats the front Left/Right as prev/next
+    // too, but it routed them down the front-button path: it doubled the bars
+    // onto the same two buttons as the 5-way's horizontal axis, and picked up
+    // the front long-press action (chapter skip) instead of the side one.
     case kPagePrevA:
     case kPagePrevB:
-      return HalGPIO::BTN_LEFT;
+      return HalGPIO::BTN_UP;
     case kPageNextA:
     case kPageNextB:
-      return HalGPIO::BTN_RIGHT;
+      return HalGPIO::BTN_DOWN;
 
     case kFiveLeft:
       return HalGPIO::BTN_LEFT;
