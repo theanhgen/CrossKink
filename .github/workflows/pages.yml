@@ -1,12 +1,11 @@
 name: Deploy Pages
 
+# CROSSKINK FORK: the automatic push trigger is removed on purpose.
+# This deploys upstream's documentation site. In a fork it would try to claim
+# crossink.dev (docs/CNAME, now deleted) — a domain this repo does not own —
+# on any push touching docs/. Left dispatch-only so it is still runnable if
+# this fork ever publishes a site of its own, which needs its own domain.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "docs/**"
-      - "site/**"
-      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
