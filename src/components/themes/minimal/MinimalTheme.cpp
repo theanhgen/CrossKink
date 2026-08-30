@@ -635,9 +635,31 @@ void MinimalTheme::drawButtonHints(GfxRenderer& renderer, const char* btn1, cons
     return;
   }
 
+  // KINDLE FORK: no bottom button row on this hardware. The four hints label
+  // four bezel buttons in a row, which the Xteink boards have and the Kindle 3
+  // does not - its Back key, 5-way centre and edge page bars are nowhere near
+  // that arrangement, so the labels point at nothing.
+  //
+  // This also settles an inconsistency upstream never hits, because it never
+  // drives the UI in a landscape orientation: getNumberOfItemsPerPage()
+  // reserves NO vertical space for hints in the landscape orientations, so
+  // drawing them there overlaid real content.
+  {
+    const GfxRenderer::Orientation ori = renderer.getOrientation();
+    if (ori == GfxRenderer::Orientation::LandscapeClockwise ||
+        ori == GfxRenderer::Orientation::LandscapeCounterClockwise) {
+      return;
+    }
+  }
+
   const GfxRenderer::Orientation origOrientation = renderer.getOrientation();
   const bool invertText = allowInvertedText && origOrientation == GfxRenderer::Orientation::PortraitInverted;
-  renderer.setOrientation(GfxRenderer::Orientation::Portrait);
+  // KINDLE FORK: upstream forces Portrait here because its panel is natively
+  // LANDSCAPE (800x480) and Portrait is the rotation that makes text upright.
+  // The Kindle 3 panel is natively PORTRAIT (600x800), so the base orientation
+  // is already upright and forcing Portrait rotates the button bar 90 degrees.
+  // Keeping the current orientation is the equivalent on this panel.
+  renderer.setOrientation(origOrientation);
 
   const int pageHeight = renderer.getScreenHeight();
   const int screenWidth = renderer.getScreenWidth();
@@ -673,7 +695,10 @@ void MinimalTheme::drawButtonHints(GfxRenderer& renderer, const char* btn1, cons
     }
   }
 
-  renderer.setOrientation(invertText ? GfxRenderer::Orientation::PortraitInverted : GfxRenderer::Orientation::Portrait);
+  // KINDLE FORK: same reasoning. invertText is only ever true when the base
+  // orientation is PortraitInverted, which this panel never uses, so in
+  // practice this restores the upright base orientation.
+  renderer.setOrientation(invertText ? GfxRenderer::Orientation::PortraitInverted : origOrientation);
   const int textY = invertText ? textYOffset : pageHeight - buttonY + textYOffset;
 
   for (int i = 0; i < 4; i++) {

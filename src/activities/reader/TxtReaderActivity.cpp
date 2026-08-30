@@ -137,7 +137,7 @@ void TxtReaderActivity::onExit() {
   }
 
   // Reset orientation back to portrait for the rest of the UI
-  renderer.setOrientation(GfxRenderer::Orientation::Portrait);
+  renderer.setOrientation(ReaderUtils::kUprightOrientation);  // KINDLE FORK: portrait panel
 
   pageOffsets.clear();
   currentPageLines.clear();
@@ -825,22 +825,9 @@ bool TxtReaderActivity::drawCurrentPageToBuffer(const std::string& filePath, Gfx
   }
 
   // Apply the reader orientation so margins match what the reader would produce
-  switch (SETTINGS.orientation) {
-    case CrossPointSettings::ORIENTATION::PORTRAIT:
-      renderer.setOrientation(GfxRenderer::Orientation::Portrait);
-      break;
-    case CrossPointSettings::ORIENTATION::LANDSCAPE_CW:
-      renderer.setOrientation(GfxRenderer::Orientation::LandscapeClockwise);
-      break;
-    case CrossPointSettings::ORIENTATION::INVERTED:
-      renderer.setOrientation(GfxRenderer::Orientation::PortraitInverted);
-      break;
-    case CrossPointSettings::ORIENTATION::LANDSCAPE_CCW:
-      renderer.setOrientation(GfxRenderer::Orientation::LandscapeCounterClockwise);
-      break;
-    default:
-      break;
-  }
+  // KINDLE FORK: was a duplicate of toRendererOrientation()'s table, which now
+  // remaps for a natively portrait panel. Delegate so the two cannot drift.
+  renderer.setOrientation(ReaderUtils::toRendererOrientation(SETTINGS.orientation));
 
   // Compute layout values that match what initializeReader() produces
   const int fontId = SETTINGS.getReaderFontId();

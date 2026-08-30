@@ -480,7 +480,7 @@ void SleepActivity::onEnter() {
   if (APP_STATE.lastSleepFromReader) {
     renderer.setOrientation(sleepPopupOrientation);
     GUI.drawPopup(renderer, tr(STR_ENTERING_SLEEP));
-    renderer.setOrientation(GfxRenderer::Orientation::Portrait);
+    renderer.setOrientation(ReaderUtils::kUprightOrientation);  // KINDLE FORK: portrait panel
   } else {
     GUI.drawPopup(renderer, tr(STR_ENTERING_SLEEP));
   }
@@ -826,7 +826,7 @@ void SleepActivity::renderBlankSleepScreen() const {
 void SleepActivity::renderOverlaySleepScreen() const {
   // Overlay pictures always use portrait orientation regardless of the reader's orientation preference.
   const auto savedOrientation = renderer.getOrientation();
-  renderer.setOrientation(GfxRenderer::Portrait);
+  renderer.setOrientation(ReaderUtils::kUprightOrientation);  // KINDLE FORK: portrait panel
   const auto pageWidth = renderer.getScreenWidth();
   const auto pageHeight = renderer.getScreenHeight();
   const bool shouldUseReaderPageBackground = canSnapshotOverlayBackground;

@@ -2128,7 +2128,7 @@ void EpubReaderActivity::onExit() {
   }
 
   // Reset orientation back to portrait for the rest of the UI
-  renderer.setOrientation(GfxRenderer::Orientation::Portrait);
+  renderer.setOrientation(ReaderUtils::kUprightOrientation);  // KINDLE FORK: portrait panel
 
   APP_STATE.readerActivityLoadCount = 0;
   APP_STATE.saveToFile();

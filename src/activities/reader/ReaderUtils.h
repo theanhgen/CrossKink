@@ -23,18 +23,37 @@ constexpr uint8_t STATUS_BAR_TEXT_PADDING = 3;
 // bites once reservedClockHeight + padding drops below the screen-margin setting.
 constexpr int8_t TOP_CLOCK_TEXT_PADDING = 0;
 
+// KINDLE FORK: this panel is natively PORTRAIT (600x800). Every upstream board
+// is natively LANDSCAPE, so GfxRenderer's enum names are written from that
+// point of view: "Portrait" means "rotate 90 deg CW off the panel", and
+// "LandscapeCounterClockwise" means "no rotation".
+//
+// On a portrait panel those meanings are all one rotation step out, so a user
+// who picks Portrait gets a landscape page. The remap below restores intent:
+//
+//   user PORTRAIT      -> LandscapeCounterClockwise  (identity)
+//   user LANDSCAPE_CW  -> Portrait                   (90 CW)
+//   user INVERTED      -> LandscapeClockwise         (180)
+//   user LANDSCAPE_CCW -> PortraitInverted           (90 CCW)
+//
+// kUprightOrientation is what the hardcoded setOrientation(Portrait) calls
+// scattered through the reader activities should mean: "upright, as the user
+// holds the device".
+inline constexpr GfxRenderer::Orientation kUprightOrientation =
+    GfxRenderer::Orientation::LandscapeCounterClockwise;
+
 inline GfxRenderer::Orientation toRendererOrientation(const uint8_t orientation) {
   switch (orientation) {
     case CrossPointSettings::ORIENTATION::PORTRAIT:
-      return GfxRenderer::Orientation::Portrait;
-    case CrossPointSettings::ORIENTATION::LANDSCAPE_CW:
-      return GfxRenderer::Orientation::LandscapeClockwise;
-    case CrossPointSettings::ORIENTATION::INVERTED:
-      return GfxRenderer::Orientation::PortraitInverted;
-    case CrossPointSettings::ORIENTATION::LANDSCAPE_CCW:
       return GfxRenderer::Orientation::LandscapeCounterClockwise;
-    default:
+    case CrossPointSettings::ORIENTATION::LANDSCAPE_CW:
       return GfxRenderer::Orientation::Portrait;
+    case CrossPointSettings::ORIENTATION::INVERTED:
+      return GfxRenderer::Orientation::LandscapeClockwise;
+    case CrossPointSettings::ORIENTATION::LANDSCAPE_CCW:
+      return GfxRenderer::Orientation::PortraitInverted;
+    default:
+      return GfxRenderer::Orientation::LandscapeCounterClockwise;
   }
 }
 

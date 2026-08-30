@@ -162,9 +162,10 @@ Rect UITheme::getScreenSafeArea(const GfxRenderer& renderer, bool hasFrontButton
       }
       break;
     case GfxRenderer::Orientation::LandscapeCounterClockwise:
-      if (hasFrontButtonHints) {
-        safeArea.width -= currentMetrics->buttonHintsHeight;
-      }
+      // KINDLE FORK: upstream reserves a vertical strip here because on a
+      // natively landscape panel the front hints run down one edge. This fork
+      // does not draw hints in this orientation at all (see drawButtonHints),
+      // so reserving the strip would only lose width to nothing.
       break;
   }
   return safeArea;

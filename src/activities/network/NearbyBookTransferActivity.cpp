@@ -1,4 +1,5 @@
 #include "NearbyBookTransferActivity.h"
+#include "activities/reader/ReaderUtils.h"  // KINDLE FORK: kUprightOrientation
 
 #include <Arduino.h>
 #include <FsHelpers.h>
@@ -119,7 +120,7 @@ std::string NearbyBookTransferActivity::keepBothPath(const std::string& path) {
 
 void NearbyBookTransferActivity::onEnter() {
   Activity::onEnter();
-  renderer.setOrientation(GfxRenderer::Orientation::Portrait);
+  renderer.setOrientation(ReaderUtils::kUprightOrientation);  // KINDLE FORK: portrait panel
   destinationFolder_ = SETTINGS.nearbyReceiveFolder[0] ? SETTINGS.nearbyReceiveFolder : "/";
   uiReady_ = false;
   app_.setTheme(uiThemeTokens(uiTarget_));

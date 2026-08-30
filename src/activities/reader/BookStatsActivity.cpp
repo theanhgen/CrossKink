@@ -1,4 +1,5 @@
 #include "BookStatsActivity.h"
+#include "activities/reader/ReaderUtils.h"  // KINDLE FORK: kUprightOrientation
 
 #include <I18n.h>
 
@@ -219,7 +220,7 @@ void BookStatsActivity::adjustSelectedDateField(const int delta) {
 void BookStatsActivity::onEnter() {
   Activity::onEnter();
   previousOrientation = renderer.getOrientation();
-  renderer.setOrientation(GfxRenderer::Orientation::Portrait);
+  renderer.setOrientation(ReaderUtils::kUprightOrientation);  // KINDLE FORK: portrait panel
   requestUpdate();
 }
 
