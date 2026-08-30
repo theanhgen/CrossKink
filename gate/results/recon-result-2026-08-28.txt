@@ -1,0 +1,257 @@
+=== CrossInk device recon ===
+uname   : Linux kindle 2.6.26-rt-lab126 #5 Sat Sep 1 14:28:26 PDT 2012 armv6l unknown
+
+=== /dev/fb0 ===
+  xres            600
+  yres            800
+  xres_virtual    600
+  yres_virtual    800
+  xoffset         0
+  yoffset         0
+  bits_per_pixel  4   <-- decides the pack format
+  grayscale       1
+  rotate          0
+  height x width  121 x 91 (mm)
+  red            offset=0   length=0   msb_right=0
+  green          offset=0   length=0   msb_right=0
+  blue           offset=0   length=0   msb_right=0
+  transp         offset=0   length=0   msb_right=0
+  id              'eink_fb'
+  smem_len        483328
+  line_length     300   <-- bytes per row
+  type            0   visual 5
+  xpanstep 0 ypanstep 0 ywrapstep 0
+  accel           0
+
+=== /dev/input/event* ===
+  /dev/input/event0    "mxckpd"
+                       types: EV_KEY
+  /dev/input/event1    "fiveway"
+                       types: EV_KEY
+  /dev/input/event2    "volume"
+                       types: EV_KEY
+
+=== /dev/fb* and /dev/input/ ===
+lrwxrwxrwx    1 root     root            4 Aug 28 09:27 /dev/fb0 -> fb/0
+
+/dev/fb:
+crw-rw----    1 root     root      29,   0 Aug 28 19:45 0
+
+/dev/input/:
+crw-rw----    1 root     root      13,  64 Aug 28 09:27 event0
+crw-rw----    1 root     root      13,  65 Aug 28 09:27 event1
+crw-rw----    1 root     root      13,  66 Aug 28 09:27 event2
+crw-rw----    1 root     root      10, 223 Aug 28 09:27 uinput
+
+=== /proc/bus/input/devices ===
+I: Bus=0019 Vendor=0000 Product=0000 Version=0000
+N: Name="mxckpd"
+P: Phys=
+S: Sysfs=/devices/virtual/input/input1
+U: Uniq=
+H: Handlers=event0 
+B: EV=100003
+B: KEY=2 c0000000 40000800 40002140 0 317f47f d3ff4ffd
+
+I: Bus=0019 Vendor=0000 Product=0000 Version=0000
+N: Name="fiveway"
+P: Phys=
+S: Sysfs=/devices/virtual/input/input2
+U: Uniq=
+H: Handlers=event1 
+B: EV=3
+B: KEY=4 0 0 1680 0 0 0
+
+I: Bus=0019 Vendor=0000 Product=0000 Version=0000
+N: Name="volume"
+P: Phys=
+S: Sysfs=/devices/virtual/input/input3
+U: Uniq=
+H: Handlers=event2 
+B: EV=3
+B: KEY=c0000 0 0 0
+
+
+=== framebuffer sysfs ===
+  bits_per_pixel = 4
+  blank = 
+  console = 
+  cursor = 
+  dev = 29:0
+  mode = 
+  modes = U:600x800p-0
+  name = eink_fb
+  pan = 0,0
+  rotate = 0
+  state = 0
+  stride = 300
+  uevent = MAJOR=29
+MINOR=0
+  virtual_size = 600,800
+
+=== eink driver traces ===
+-r--r--r--    1 root     root            0 Aug 28 19:55 commands_version
+-rw-rw-rw-    1 root     root            0 Aug 28 19:55 eink_ram
+--w--w--w-    1 root     root            0 Aug 28 19:55 eink_reg
+-r--r--r--    1 root     root            0 Aug 28 19:55 eink_rom
+-r--r--r--    1 root     root            0 Aug 28 19:55 hardware_fb
+-r--r--r--    1 root     root            0 Aug 28 19:55 power_level
+-r--r--r--    1 root     root            0 Aug 28 19:55 recent_commands
+-r--r--r--    1 root     root            0 Aug 28 19:55 temperature
+--w--w--w-    1 root     root            0 Aug 28 19:55 update_display
+-r--r--r--    1 root     root            0 Aug 28 19:55 virtual_fb
+-r--r--r--    1 root     root            0 Aug 28 19:55 waveform_version
+eink_fb: W einkfb_print_buffers_equal_message:def:area_update(non-flashing):x1=8,x2=32,y1=8,y2=34
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+eink_fb: I bs_cmd_ld_img_upd_data_which:def:temp=30C:from pmic
+
+=== jailbreak state (the four files 3.2.1-jb.sig guards on) ===
+  PRESENT  /etc/init.d/jailbreak  ->  -rwxr-xr-x    1 root     root         2068 Apr  6  2011 /etc/init.d/jailbreak
+  PRESENT  /etc/rc5.d/S64jailbreak  ->  lrwxrwxrwx    1 root     root           21 Apr  6  2011 /etc/rc5.d/S64jailbreak -> /etc/init.d/jailbreak
+  PRESENT  /etc/rc3.d/K09jailbreak  ->  lrwxrwxrwx    1 root     root           21 Apr  6  2011 /etc/rc3.d/K09jailbreak -> /etc/init.d/jailbreak
+  PRESENT  /etc/uks/pubprodkey01.hack.pem  ->  -rwxr-xr-x    1 root     root          272 Apr  6  2011 /etc/uks/pubprodkey01.hack.pem
+
+=== /etc/uks/ (signing keys) ===
+-rwxr-xr-x    1 root     root          272 Apr  6  2011 pubprodkey01.hack.pem
+-rwxr-xr-x    1 root     root          272 Apr  6  2011 pubprodkey01.pem
+-rw-r--r--    1 root     root          451 Feb  6  2011 pubprodkey02.pem
+  mounted over pubprodkey01.pem?
+/dev/root /etc/uks/pubprodkey01.pem ext3 ro,noatime,nodiratime,data=ordered 0 0
+
+=== linkjail / hack init scripts ===
+grep: invalid option -- E
+BusyBox v1.7.2 (2019-05-30 09:57:42 UTC) multi-call binary
+
+Usage: grep [-HhrilLnqvsoeFABC] PATTERN [FILEs...]
+
+Search for PATTERN in each FILE or standard input
+
+Options:
+	-H	Prefix output lines with filename where match was found
+	-h	Suppress the prefixing filename on output
+	-r	Recurse subdirectories
+	-i	Ignore case distinctions
+	-l	List names of files that match
+	-L	List names of files that do not match
+	-n	Print line number with output lines
+	-q	Quiet. Returns 0 if PATTERN was found, 1 otherwise
+	-v	Select non-matching lines
+	-s	Suppress file open/read error messages
+	-c	Only print count of matching lines
+	-o	Show only the part of a line that matches PATTERN
+	-m MAX	Match up to MAX times per file
+	-F	PATTERN is a set of newline-separated strings
+	-e PTRN	Pattern to match
+	-f FILE	Read pattern from file
+	-A	Print NUM lines of trailing context
+	-B	Print NUM lines of leading context
+	-C	Print NUM lines of output context
+
+grep: invalid option -- E
+BusyBox v1.7.2 (2019-05-30 09:57:42 UTC) multi-call binary
+
+Usage: grep [-HhrilLnqvsoeFABC] PATTERN [FILEs...]
+
+Search for PATTERN in each FILE or standard input
+
+Options:
+	-H	Prefix output lines with filename where match was found
+	-h	Suppress the prefixing filename on output
+	-r	Recurse subdirectories
+	-i	Ignore case distinctions
+	-l	List names of files that match
+	-L	List names of files that do not match
+	-n	Print line number with output lines
+	-q	Quiet. Returns 0 if PATTERN was found, 1 otherwise
+	-v	Select non-matching lines
+	-s	Suppress file open/read error messages
+	-c	Only print count of matching lines
+	-o	Show only the part of a line that matches PATTERN
+	-m MAX	Match up to MAX times per file
+	-F	PATTERN is a set of newline-separated strings
+	-e PTRN	Pattern to match
+	-f FILE	Read pattern from file
+	-A	Print NUM lines of trailing context
+	-B	Print NUM lines of leading context
+	-C	Print NUM lines of output context
+
+
+=== mounts ===
+rootfs / rootfs rw 0 0
+/dev/root / ext3 rw,noatime,nodiratime,data=ordered 0 0
+proc /proc proc rw 0 0
+sysfs /sys sysfs rw 0 0
+tmpfs /dev tmpfs rw,mode=755 0 0
+devpts /dev/pts devpts rw,gid=5,mode=620 0 0
+rwfs /mnt/rwfs tmpfs rw,size=32768k 0 0
+shm /dev/shm tmpfs rw 0 0
+rwfs /var tmpfs rw,size=32768k 0 0
+/dev/mmcblk0p2 /var/local ext3 rw,sync,errors=continue,data=ordered 0 0
+fsp /mnt/us fuse.fsp rw,nosuid,nodev,noatime,user_id=0,group_id=0 0 0
+/dev/loop/0 /mnt/base-us vfat rw,noexec,noatime,nodiratime,fmask=0022,dmask=0022,codepage=cp437,iocharset=iso8859-1,shortname=mixed,utf8 0 0
+/dev/root /etc/uks/pubprodkey01.pem ext3 ro,noatime,nodiratime,data=ordered 0 0
+
+=== cpu / mem ===
+Processor	: ARMv6-compatible processor rev 3 (v6l)
+BogoMIPS	: 511.18
+Features	: swp half thumb fastmult vfp edsp java 
+CPU implementer	: 0x41
+CPU architecture: 6TEJ
+CPU variant	: 0x1
+CPU part	: 0xb36
+CPU revision	: 3
+Cache type	: write-back
+Cache clean	: cp15 c7 ops
+Cache lockdown	: format C
+Cache format	: Harvard
+I size		: 16384
+I assoc		: 4
+I line length	: 32
+I sets		: 128
+D size		: 16384
+D assoc		: 4
+D line length	: 32
+D sets		: 128
+
+Hardware	: Amazon MX35 Luigi Board
+Revision	: 35020
+Serial		: "B00A000000000000"
+BoardId		: "SP1B000000000000"
+MemTotal:       256536 kB
+MemFree:         69812 kB
+Buffers:        100728 kB
+Cached:          71880 kB
+SwapCached:          0 kB
+
+=== free space ===
+Filesystem                Size      Used Available Use% Mounted on
+/dev/mmcblk0p1          646.8M    511.5M    109.3M  82% /
+tmpfs                   125.3M     20.0k    125.2M   0% /dev
+rwfs                     32.0M    248.0k     31.8M   1% /mnt/rwfs
+shm                     125.3M         0    125.3M   0% /dev/shm
+rwfs                     32.0M    248.0k     31.8M   1% /var
+/dev/mmcblk0p2           23.2M      2.0M     20.0M   9% /var/local
+fsp                       3.1G    724.1M      2.3G  23% /mnt/us
+/dev/loop/0               3.1G    724.1M      2.3G  23% /mnt/base-us
+/dev/mmcblk0p1          646.8M    511.5M    109.3M  82% /etc/uks/pubprodkey01.pem
+
+=== shell tooling ===
+  busybox : BusyBox v1.7.2 (2019-05-30 09:57:42 UTC) multi-call binary
+  sh      : lrwxrwxrwx    1 root     root            7 Feb  6  2011 /bin/sh -> busybox

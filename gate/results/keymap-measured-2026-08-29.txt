@@ -1,0 +1,45 @@
+device event0 = "mxckpd"
+device event1 = "fiveway"
+device event2 = "volume"
+
+KEY                        DEVICE     CODE  
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+LEFT bar  - UPPER half     mxckpd     193   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+LEFT bar  - LOWER half     mxckpd     104   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+RIGHT bar - UPPER half     mxckpd     109   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+RIGHT bar - LOWER half     mxckpd     191   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+5-way  UP                  fiveway    103   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+5-way  DOWN                fiveway    108   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+5-way  LEFT                fiveway    105   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+5-way  RIGHT               fiveway    106   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+5-way  CENTRE (press in)   fiveway    194   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+HOME                       mxckpd     102   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+MENU                       mxckpd     139   
+eips: paint_char> character "'" not available
+eips: paint_char> character "'" not available
+BACK                       mxckpd     158   
+
+done
+
+capture exit: 0

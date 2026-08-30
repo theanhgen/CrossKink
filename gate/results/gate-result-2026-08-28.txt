@@ -1,0 +1,22 @@
+=== CrossInk toolchain gate ===
+uname   : Linux kindle 2.6.26-rt-lab126 #5 Sat Sep 1 14:28:26 PDT 2012 armv6l unknown
+kernel  : Linux version 2.6.26-rt-lab126 (jenkins-official@lucid-build02) (gcc version 4.1.2) #5 Sat Sep 1 14:28:26 PDT 2012
+libc    : /lib/libc-2.5.so
+
+[INFO] kernel  Linux 2.6.26-rt-lab126 (armv6l)
+[PASS] c++20 language               
+[INFO] __cplusplus = 202002
+[PASS] std::thread + join           
+[PASS] std::atomic fetch_add        
+[PASS] condition_variable           
+[PASS] atomic<int> lock-free        (lock-free)
+[PASS] throw / catch / what()       
+[PASS] clock_gettime(MONOTONIC)     
+[PASS] std::filesystem iterate      /mnt/us
+[PASS] std::locale("C")             
+[INFO] locale("") ok: C
+[PASS] shared_ptr + vector + string 
+
+GATE PASSED (0 failures)
+
+gate exit status: 0

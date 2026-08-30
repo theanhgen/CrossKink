@@ -1,0 +1,24 @@
+panel 600x800 bpp=4 line_length=300
+
+nibble histogram over 480000 pixels:
+  0x0      448469  93.43%
+  0x1           0   0.00%
+  0x2           0   0.00%
+  0x3           0   0.00%
+  0x4           0   0.00%
+  0x5        5128   1.07%
+  0x6           0   0.00%
+  0x7           0   0.00%
+  0x8           0   0.00%
+  0x9           0   0.00%
+  0xA        2846   0.59%
+  0xB           0   0.00%
+  0xC           0   0.00%
+  0xD           0   0.00%
+  0xE           0   0.00%
+  0xF       23557   4.91%
+
+dominant nibble: 0x0  (93.43% of screen)
+levels above 0.1% of screen: 4
+VERDICT: background is a LOW nibble -> panel is INVERTED -> set kInvertNibbles = true
+exit: 0

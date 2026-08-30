@@ -1,0 +1,10 @@
+watching /dev/input/event0 = "mxckpd"
+watching /dev/input/event1 = "fiveway"
+watching /dev/input/event2 = "volume"
+
+press every key now (60 s)
+DEVICE     CODE   VALUE  ACTION
+
+done
+
+capture exit: 0

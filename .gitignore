@@ -49,3 +49,7 @@ dist-publish/
 /CMakeLists.txt
 /dependencies.lock
 /sdkconfig.*
+
+# Kindle cross-build
+build/
+*-arm

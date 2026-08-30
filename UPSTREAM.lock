@@ -1,0 +1,11 @@
+# Pinned upstream revisions for the Kindle 3 target.
+# Upstream is READ-ONLY. Never push to uxjulia/* or Free-Ink/*.
+# Reproduce the build tree with: scripts-kindle/bootstrap.sh
+#
+# crossink is the FORK POINT of this repo, not a submodule — this repo is
+# CrossInk. The row records where we branched so the divergence stays legible.
+#
+# repo<TAB>url<TAB>sha<TAB>date
+crossink	https://github.com/uxjulia/CrossInk.git	cab4f24922f05811e7f44be1057f62ea2d978c52	2026-08-18
+freeink-sdk	https://github.com/Free-Ink/freeink-sdk.git	1ff020263cd2202ea79ce3eb811f5ac8489b8cde	2026-08-07
+simulator	https://github.com/uxjulia/crossink-simulator.git	d07c68104f1de8e62a992e46250feeb5c6a22290	2026-08-18

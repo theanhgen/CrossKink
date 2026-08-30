@@ -1,0 +1,49 @@
+diff --git a/src/EInkDisplay.h b/src/EInkDisplay.h
+index 42f8c6a..4c821e6 100644
+--- a/src/EInkDisplay.h
++++ b/src/EInkDisplay.h
+@@ -24,7 +24,13 @@ public:
+   // X3: 3.7" panel, 3:2 aspect ratio, ~257 ppi (792×528 landscape buffer)
+   // X4 / X4 Pro: 4.3" panel, 5:3 aspect ratio, ~217 ppi
+   // (800×480 landscape buffer)
+-#if defined(SIMULATOR_DEVICE_X3)
++#if defined(SIMULATOR_DEVICE_KINDLE)
++  // KINDLE FORK: Kindle 3 Keyboard - 600x800, natively PORTRAIT, unlike every
++  // upstream board. Lets UI layout be checked on the host instead of costing a
++  // flash cycle on the device.
++  static constexpr uint16_t DISPLAY_WIDTH = 600;
++  static constexpr uint16_t DISPLAY_HEIGHT = 800;
++#elif defined(SIMULATOR_DEVICE_X3)
+   static constexpr uint16_t DISPLAY_WIDTH = 792;
+   static constexpr uint16_t DISPLAY_HEIGHT = 528;
+ #else
+diff --git a/src/simulator_main.cpp b/src/simulator_main.cpp
+index 21edd8a..2af9f0e 100644
+--- a/src/simulator_main.cpp
++++ b/src/simulator_main.cpp
+@@ -2,6 +2,8 @@
+ #include <SDL.h>
+ #include <unistd.h>
+ 
++#include <GfxRenderer.h>
++
+ #include "Arduino.h"
+ #include "HalDisplay.h"
+ #include "HalGPIO.h"
+@@ -13,6 +15,16 @@ extern HalDisplay display; // defined in main.cpp
+ 
+ int main(int argc, char **argv) {
+   SimulatorLifecycle::initProcessArgs(argv);
++#if defined(SIMULATOR_DEVICE_KINDLE)
++  // KINDLE FORK: match platform/kindle/kindle_main.cpp. GfxRenderer defaults to
++  // Orientation::Portrait, which rotates 90 degrees to get a portrait UI from a
++  // landscape panel. This panel is natively portrait, so the identity mapping
++  // (LandscapeCounterClockwise) is what keeps it upright.
++  {
++    extern GfxRenderer renderer;
++    renderer.setOrientation(GfxRenderer::Orientation::LandscapeCounterClockwise);
++  }
++#endif
+   setup();
+   while (!display.shouldQuit()) {
+     // Clear input edge latches once per frame. update() may be called many

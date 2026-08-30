@@ -1,0 +1,25 @@
+device event0 = "mxckpd"
+device event1 = "fiveway"
+device event2 = "volume"
+
+KEY                        DEVICE     CODE  
+LEFT bar  - UPPER half     -          NONE  
+LEFT bar  - LOWER half     -          NONE  
+RIGHT bar - UPPER half     -          NONE  
+RIGHT bar - LOWER half     -          NONE  
+5-way  UP                  -          NONE  
+5-way  DOWN                -          NONE  
+5-way  LEFT                -          NONE  
+5-way  RIGHT               mxckpd     193   
+5-way  CENTRE (press in)   mxckpd     191   
+HOME                       fiveway    103   
+MENU                       fiveway    194   
+BACK                       mxckpd     139   
+VOLUME  UP                 mxckpd     190   
+VOLUME  DOWN               volume     114   
+Aa / TEXT key              mxckpd     16    
+SYM key                    mxckpd     19    
+
+done
+
+capture exit: 0
