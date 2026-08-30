@@ -5,7 +5,7 @@ Turning a shell script into something a jailbroken Kindle 3 will run as root.
 | File | |
 |---|---|
 | `build-package.sh` | assembles, signs and **verifies** an FC02 update package |
-| `crossink.sh` | the launch script — stages the binary, suspends `cvm`, runs, restores |
+| `crosskink.sh` | the launch script — stages the binary, suspends `cvm`, runs, restores |
 | `kindletool` | **not committed.** NiLuJe's, x86-64 Linux. [Releases](https://github.com/NiLuJe/KindleTool/releases) |
 | `libotautils` | **not committed.** NiLuJe's, lifted from any of his hack packages |
 
@@ -29,7 +29,7 @@ KUAL and MRPI are convenience layers on top. They are not gatekeepers. Full reas
 ## Use
 
 ```sh
-package/build-package.sh --device k3gb --name crossink package/crossink.sh
+package/build-package.sh --device k3gb --name crosskink package/crosskink.sh
 ```
 
 `--device` is `k3g` (B006, US 3G), `k3w` (B008, WiFi) or `k3gb` (B00A, UK/intl 3G), chosen by
@@ -45,7 +45,7 @@ The tool verifies its own output before handing it over — FC02 magic, device I
 signatures present, nothing in a subdirectory:
 
 ```
-==> dist/Update_crossink_k3gb.bin
+==> dist/Update_crosskink_k3gb.bin
     magic FC02, device 0x0A (k3gb), signed, 6 entries at root
 ```
 
@@ -68,7 +68,7 @@ Four rules, each of which cost real time to learn:
 2. **Foreground only.** Backgrounding a process and calling `wait` hangs the update
    indefinitely — recoverable only with a ~30-second power-slider reset.
 3. **Bound anything interactive.** An unbounded reader never returns, so the update never
-   finishes. `crossink.sh` uses `CROSSINK_RUN_SECONDS` as a backstop.
+   finishes. `crosskink.sh` uses `CROSSINK_RUN_SECONDS` as a backstop.
 4. **Stage binaries into `/tmp`.** `/mnt/us` is `noexec` — a FUSE overlay over a vfat loop
    mount whose backing mount forbids execution. You cannot run anything from the USB volume.
 

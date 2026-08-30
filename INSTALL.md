@@ -156,7 +156,7 @@ Expect `glibc 2.5`, `__cplusplus = 202002`, lock-free `atomic<int>`, and zero fa
 ## 4. Build the package
 
 ```sh
-package/build-package.sh --device k3gb --name crossink package/crossink.sh
+package/build-package.sh --device k3gb --name crosskink package/crosskink.sh
 ```
 
 It stages the files flat, signs with kindletool's default jailbreak key, then verifies its own
@@ -164,7 +164,7 @@ output before handing it to you — magic, device ID, signatures, and that nothi
 subdirectory:
 
 ```
-==> dist/Update_crossink_k3gb.bin
+==> dist/Update_crosskink_k3gb.bin
     magic FC02, device 0x0A (k3gb), signed, 6 entries at root
 ```
 
@@ -176,8 +176,8 @@ your hardware, and a mismatch is one of the ways you get a silent failure with n
 ## 5. Install
 
 ```sh
-cp build/crossink        /Volumes/Kindle/crossink
-cp dist/Update_crossink_k3gb.bin /Volumes/Kindle/
+cp build/crossink         /Volumes/Kindle/crosskink   # binary is built as 'crossink'
+cp dist/Update_crosskink_k3gb.bin /Volumes/Kindle/
 
 # macOS makes AppleDouble twins that also end in .bin and break the one-bundle rule
 find /Volumes/Kindle -maxdepth 1 \( -name '._*' -o -name '.DS_Store' \) -delete
@@ -192,10 +192,10 @@ Then:
 
 Exactly **one** `.bin` at the volume root. More than one and it refuses.
 
-The screen will show CrossInk, then `HOLD MENU for 2s to exit`. The stock framework is
+The screen will show CrossKink, then `HOLD MENU for 2s to exit`. The stock framework is
 suspended while it runs and resumed on every path out, including a crash.
 
-Afterwards, plug back in and read `crossink-run.txt` from the volume — stdout and stderr are
+Afterwards, plug back in and read `crosskink-run.txt` from the volume — stdout and stderr are
 captured there, so a blank screen still gives you something to read.
 
 The updater deletes the `.bin` on success *and* on failure. **If the file is gone, it ran.**
@@ -205,7 +205,7 @@ The updater deletes the `.bin` on success *and* on failure. **If the file is gon
 ## If it hangs
 
 The update script is `source`d by the updater, so anything that blocks forever blocks the
-update. `crossink.sh` guards this with `CROSSINK_RUN_SECONDS=1800` as a backstop, but if you
+update. `crosskink.sh` guards this with `CROSSINK_RUN_SECONDS=1800` as a backstop, but if you
 modify it:
 
 - **Never background a process and `wait`.** It is BusyBox `ash` inside the updater; this hung

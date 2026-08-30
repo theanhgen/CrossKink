@@ -6,7 +6,7 @@
 # JAILBROKEN device and runs its script as root. See ../METHOD.md for why this
 # works and what a jailbreak actually does.
 #
-#   package/build-package.sh --device k3gb --name crossink package/crossink.sh
+#   package/build-package.sh --device k3gb --name crosskink package/crosskink.sh
 #
 # Every file listed after the flags goes into the archive ROOT. kindletool
 # treats any *.sh or *.ffs as the update script; everything else is payload.

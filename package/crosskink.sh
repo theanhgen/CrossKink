@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# First run of CrossInk on the Kindle 3.
+# First run of CrossKink on the Kindle 3.
 #
 # Bounded and instrumented rather than a real launch: the goal is evidence,
 # not a usable reader yet.
@@ -16,18 +16,25 @@
 
 [ -f ./libotautils ] && source ./libotautils
 
-HACKNAME="crossink"
+HACKNAME="crosskink"
 
-OUT="/mnt/us/crossink-run.txt"
-SRC="/mnt/us/crossink"
-RUN="/tmp/crossink"
-DATA="/mnt/us/crossink-data"
+OUT="/mnt/us/crosskink-run.txt"
+SRC="/mnt/us/crosskink"
+RUN="/tmp/crosskink"
+DATA="/mnt/us/crosskink-data"
+OLDDATA="/mnt/us/crossink-data"
 
 otautils_update_progressbar
 
 if [ ! -f "${SRC}" ] ; then
     echo "ERROR: ${SRC} not found" > "${OUT}"
     return 0
+fi
+
+# The directory was crossink-data before the project was renamed. Move it
+# rather than silently starting empty beside someone's existing library.
+if [ ! -d "${DATA}" ] && [ -d "${OLDDATA}" ] ; then
+    mv "${OLDDATA}" "${DATA}" 2>/dev/null || cp -r "${OLDDATA}" "${DATA}" 2>/dev/null
 fi
 
 mkdir -p "${DATA}"
@@ -37,7 +44,7 @@ chmod +x "${RUN}"
 otautils_update_progressbar
 
 {
-    echo "=== CrossInk first run ==="
+    echo "=== CrossKink first run ==="
     echo "date   : $(date 2>/dev/null)"
     echo "binary : $(ls -l ${SRC} 2>/dev/null)"
     echo "data   : ${DATA}"
@@ -47,7 +54,7 @@ otautils_update_progressbar
 
 otautils_update_progressbar
 
-eips 0 6  "  CrossInk                                "
+eips 0 6  "  CrossKink                               "
 eips 0 8  "  HOLD MENU for 2s to exit                "
 sleep 3
 
@@ -55,7 +62,7 @@ sleep 3
 # path out of this script.
 killall -STOP cvm 2>/dev/null
 
-logmsg "I" "crossink" "" "launching"
+logmsg "I" "crosskink" "" "launching"
 # 30-minute backstop, not the intended exit. Holding Menu quits cleanly; the
 # cap only matters if that path fails, because a reader that never returns
 # hangs the updater and costs a power-slider reset.
@@ -73,7 +80,7 @@ rm -f "${RUN}"
 otautils_update_progressbar
 
 sync
-logmsg "I" "crossink" "" "done rc=${_RC}"
+logmsg "I" "crosskink" "" "done rc=${_RC}"
 
 otautils_update_progressbar
 
