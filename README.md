@@ -1,11 +1,13 @@
-# CrossInk on the Kindle 3 Keyboard
+# CrossKink
 
-> A fork of [CrossInk](https://github.com/uxjulia/CrossInk) that runs on the
-> **Kindle 3 Keyboard** (D00901, 2010) — ARM1136JF-S @ 532 MHz, 256 MB RAM,
-> Linux 2.6.26, glibc 2.5. Upstream's README is kept as
-> [`README-upstream.md`](README-upstream.md).
+> **A kink in [CrossInk](https://github.com/uxjulia/CrossInk)** — the ESP32
+> e-reader firmware, bent onto the **Kindle 3 Keyboard** (D00901, 2010):
+> ARM1136JF-S @ 532 MHz, 256 MB RAM, Linux 2.6.26, glibc 2.5.
+> Upstream's README is kept as [`README-upstream.md`](README-upstream.md).
 
 It boots, renders, and turns pages on real hardware.
+
+`crosspoint` → `crossink` → `crosskink`  *(one letter further out each time)*
 
 ![status](https://img.shields.io/badge/status-runs%20on%20hardware-success)
 ![target](https://img.shields.io/badge/target-armv6%20%C2%B7%20glibc%202.4-blue)
@@ -59,7 +61,7 @@ freeink-sdk/            upstream CrossInk's own submodule, unchanged
 ```
 
 Changes to upstream's own files are ordinary commits, so
-[the diff against `uxjulia/CrossInk`](https://github.com/uxjulia/CrossInk/compare/main...theanhgen:crossink-kindle3:main)
+[the diff against `uxjulia/CrossInk`](https://github.com/uxjulia/CrossInk/compare/main...theanhgen:CrossKink:main)
 is the honest record of how much had to change.
 
 ## Build
@@ -68,8 +70,8 @@ Requires Linux or a container — koxtoolchain does not build on macOS, and
 crosstool-NG refuses a case-insensitive filesystem.
 
 ```sh
-git clone https://github.com/theanhgen/crossink-kindle3
-cd crossink-kindle3
+git clone https://github.com/theanhgen/CrossKink
+cd CrossKink
 scripts-kindle/bootstrap.sh            # pins submodules, applies the simulator patch
 ulimit -s unlimited                    # required: 512 MB is not enough for cc1plus
 cmake -B build -DCMAKE_TOOLCHAIN_FILE=cmake/kindle-toolchain.cmake
