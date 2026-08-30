@@ -65,3 +65,9 @@ dist/
 .pkg-stage.*
 .pkg-out.*
 kindle.tar.zst
+
+# Font bench — corpus and results are reproducible, see fontbench/README.md
+fontbench/fonts/
+fontbench/out/
+fontbench/.venv/
+fontbench/__pycache__/
