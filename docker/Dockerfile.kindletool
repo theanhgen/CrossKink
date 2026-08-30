@@ -1,0 +1,3 @@
+FROM --platform=linux/amd64 debian:bookworm-slim
+RUN apt-get update -qq && apt-get install -y -qq libarchive13 nettle-dev libgmp10 file && rm -rf /var/lib/apt/lists/*
+WORKDIR /work

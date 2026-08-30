@@ -57,3 +57,11 @@ dist-publish/
 # Kindle cross-build
 build/
 *-arm
+
+# Packaging (see package/README.md) — third-party binaries and build output
+package/kindletool
+package/libotautils
+dist/
+.pkg-stage.*
+.pkg-out.*
+kindle.tar.zst

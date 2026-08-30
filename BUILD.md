@@ -16,7 +16,7 @@ container under Rosetta.
 
 ```sh
 colima start --cpu 6 --memory 12 --vz-rosetta
-docker build --platform linux/amd64 -t kindle-xc -f ~/kindle-xbuild/Dockerfile ~/kindle-xbuild
+docker build --platform linux/amd64 -t kindle-xc -f docker/Dockerfile .   # see docker/README.md
 
 docker run --rm --platform linux/amd64 --ulimit stack=-1 -v "$PWD":/proj -w /proj kindle-xc bash -c '
   ulimit -s unlimited

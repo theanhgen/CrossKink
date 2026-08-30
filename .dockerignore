@@ -1,0 +1,7 @@
+# Neither Dockerfile copies anything from the repo except kindle.tar.zst, but
+# without this the whole tree — vendor/ alone is 3.2 GB — is tarred and shipped
+# to the daemon on every build. That is minutes of wall clock for nothing.
+*
+
+# The cross-build image extracts this into its own filesystem (see docker/Dockerfile).
+!kindle.tar.zst
