@@ -14,13 +14,13 @@
 // KEY_MENU presses through /proc/keypad on exit, which is what makes the stock
 // UI repaint instead of coming back to a screen we drew on.
 
-#include <csignal>
-#include <cstdlib>
-#include <cstdio>
-#include <ctime>
+#include <GfxRenderer.h>
 #include <unistd.h>
 
-#include <GfxRenderer.h>
+#include <csignal>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 
 #include "Arduino.h"
 #include "HalDisplay.h"
@@ -74,7 +74,7 @@ long runSecondsLimit() {
 }
 
 void installHandlers() {
-  struct sigaction sa {};
+  struct sigaction sa{};
   sa.sa_handler = onSignal;
   sigemptyset(&sa.sa_mask);
   sa.sa_flags = 0;

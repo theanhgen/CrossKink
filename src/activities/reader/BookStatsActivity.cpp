@@ -1,10 +1,10 @@
 #include "BookStatsActivity.h"
-#include "activities/reader/ReaderUtils.h"  // KINDLE FORK: kUprightOrientation
 
 #include <I18n.h>
 
 #include "BookStatsView.h"
 #include "MappedInputManager.h"
+#include "activities/reader/ReaderUtils.h"  // KINDLE FORK: kUprightOrientation
 #include "components/TouchHeaderBackButton.h"
 
 BookStatsActivity::BookStatsActivity(GfxRenderer& renderer, MappedInputManager& mappedInput, const std::string& title,

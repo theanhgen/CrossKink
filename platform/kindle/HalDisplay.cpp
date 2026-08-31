@@ -130,9 +130,8 @@ inline bool getBit(const uint8_t* buffer, int x, int y) {
 }
 
 inline void putNibblePair(uint8_t* row, int xPair, uint8_t leftNib, uint8_t rightNib) {
-  row[xPair] = kHighNibbleIsLeftPixel
-                   ? static_cast<uint8_t>((leftNib << 4) | rightNib)
-                   : static_cast<uint8_t>((rightNib << 4) | leftNib);
+  row[xPair] = kHighNibbleIsLeftPixel ? static_cast<uint8_t>((leftNib << 4) | rightNib)
+                                      : static_cast<uint8_t>((rightNib << 4) | leftNib);
 }
 
 // Resolve the 4bpp level for one pixel from the BW base plus optional planes.
@@ -315,10 +314,9 @@ void HalDisplay::begin(bool /*seamless*/) {
     return;
   }
 
-  struct fb_var_screeninfo var {};
-  struct fb_fix_screeninfo fix {};
-  if (ioctl(fbFd, FBIOGET_VSCREENINFO, &var) < 0 ||
-      ioctl(fbFd, FBIOGET_FSCREENINFO, &fix) < 0) {
+  struct fb_var_screeninfo var{};
+  struct fb_fix_screeninfo fix{};
+  if (ioctl(fbFd, FBIOGET_VSCREENINFO, &var) < 0 || ioctl(fbFd, FBIOGET_FSCREENINFO, &fix) < 0) {
     std::fprintf(stderr, "[HalDisplay] framebuffer ioctl failed\n");
     close(fbFd);
     fbFd = -1;
@@ -328,8 +326,7 @@ void HalDisplay::begin(bool /*seamless*/) {
   // Refuse to guess. The packing below is 4bpp-specific; anything else would
   // silently paint garbage.
   if (var.bits_per_pixel != 4) {
-    std::fprintf(stderr, "[HalDisplay] expected 4bpp, got %ubpp - refusing to blit\n",
-                 var.bits_per_pixel);
+    std::fprintf(stderr, "[HalDisplay] expected 4bpp, got %ubpp - refusing to blit\n", var.bits_per_pixel);
     close(fbFd);
     fbFd = -1;
     return;
@@ -352,17 +349,15 @@ void HalDisplay::begin(bool /*seamless*/) {
   fbReady = true;
 
   if (fbXres != DISPLAY_WIDTH || fbYres != DISPLAY_HEIGHT) {
-    std::fprintf(stderr, "[HalDisplay] panel is %ux%u but build expects %ux%u\n", fbXres, fbYres,
-                 DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    std::fprintf(stderr, "[HalDisplay] panel is %ux%u but build expects %ux%u\n", fbXres, fbYres, DISPLAY_WIDTH,
+                 DISPLAY_HEIGHT);
   }
 
   clearScreen(0xFF);
   displayBuffer(FULL_REFRESH, false);
 }
 
-void HalDisplay::clearScreen(uint8_t color) const {
-  frameBufferStorage.fill(color);
-}
+void HalDisplay::clearScreen(uint8_t color) const { frameBufferStorage.fill(color); }
 
 void HalDisplay::drawImage(const uint8_t* imageData, uint16_t x, uint16_t y, uint16_t w, uint16_t h,
                            bool /*fromProgmem*/) const {
@@ -386,8 +381,8 @@ void HalDisplay::drawImage(const uint8_t* imageData, uint16_t x, uint16_t y, uin
   }
 }
 
-void HalDisplay::drawImageTransparent(const uint8_t* imageData, uint16_t x, uint16_t y, uint16_t w,
-                                      uint16_t h, bool /*fromProgmem*/) const {
+void HalDisplay::drawImageTransparent(const uint8_t* imageData, uint16_t x, uint16_t y, uint16_t w, uint16_t h,
+                                      bool /*fromProgmem*/) const {
   if (imageData == nullptr) return;
   uint8_t* fb = frameBufferStorage.data();
   const uint16_t srcStride = static_cast<uint16_t>((w + 7) / 8);
@@ -422,9 +417,7 @@ bool HalDisplay::supportsAsyncRefresh() const { return false; }
 
 bool HalDisplay::supportsAsyncGrayscaleBase() const { return false; }
 
-void HalDisplay::refreshDisplay(RefreshMode mode, bool /*turnOffScreen*/) {
-  panelUpdate(fxFor(mode));
-}
+void HalDisplay::refreshDisplay(RefreshMode mode, bool /*turnOffScreen*/) { panelUpdate(fxFor(mode)); }
 
 void HalDisplay::deepSleep() {
   // Panel power is the kernel's business; nothing to do here.
@@ -486,17 +479,14 @@ void HalDisplay::cleanupGrayscaleBuffers(const uint8_t* bwBuffer) {
   clearGrayscalePlanes();
 }
 
-void HalDisplay::displayGrayBuffer(bool /*turnOffScreen*/, const unsigned char* /*lut*/,
-                                   bool /*factoryMode*/) {
-  const uint8_t* base =
-      grayscale.bwBaseValid ? grayscale.bwBase.data() : frameBufferStorage.data();
+void HalDisplay::displayGrayBuffer(bool /*turnOffScreen*/, const unsigned char* /*lut*/, bool /*factoryMode*/) {
+  const uint8_t* base = grayscale.bwBaseValid ? grayscale.bwBase.data() : frameBufferStorage.data();
   blitToPanel(base, true);
   // Grayscale needs the slower waveform; a partial update smears the levels.
   panelUpdate(FX_UPDATE_SLOW);
 }
 
-void HalDisplay::writeGrayscalePlaneStrip(bool lsbPlane, const uint8_t* rows, uint16_t yStart,
-                                          uint16_t numRows) {
+void HalDisplay::writeGrayscalePlaneStrip(bool lsbPlane, const uint8_t* rows, uint16_t yStart, uint16_t numRows) {
   if (rows == nullptr) return;
   auto& dst = lsbPlane ? grayscale.lsbPlane : grayscale.msbPlane;
   bool& valid = lsbPlane ? grayscale.lsbValid : grayscale.msbValid;
@@ -545,9 +535,7 @@ void HalDisplay::displayWindow(int x, int y, int w, int h) {
   panelUpdateArea(x, y, w, h, FX_UPDATE_PARTIAL);
 }
 
-void HalDisplay::displayFactoryGrayBuffer(bool turnOffScreen) {
-  displayGrayBuffer(turnOffScreen, nullptr, true);
-}
+void HalDisplay::displayFactoryGrayBuffer(bool turnOffScreen) { displayGrayBuffer(turnOffScreen, nullptr, true); }
 
 // Simulator-only concepts: there is no host window to pump and no quit event.
 void HalDisplay::presentIfNeeded() {}

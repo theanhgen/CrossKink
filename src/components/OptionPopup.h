@@ -111,10 +111,10 @@ class OptionPopup {
     const bool navPrev = input.wasPressed(MappedInputManager::Button::Up);
     const bool navNext = input.wasPressed(MappedInputManager::Button::Down);
 #else
-    const bool navPrev = input.wasPressed(MappedInputManager::Button::Up) ||
-                         input.wasPressed(MappedInputManager::Button::Left);
-    const bool navNext = input.wasPressed(MappedInputManager::Button::Down) ||
-                         input.wasPressed(MappedInputManager::Button::Right);
+    const bool navPrev =
+        input.wasPressed(MappedInputManager::Button::Up) || input.wasPressed(MappedInputManager::Button::Left);
+    const bool navNext =
+        input.wasPressed(MappedInputManager::Button::Down) || input.wasPressed(MappedInputManager::Button::Right);
 #endif
     if (navPrev) {
       selectedIndex = (selectedIndex - 1 + count) % count;
