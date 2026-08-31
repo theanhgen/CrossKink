@@ -226,17 +226,11 @@ void HalGPIO::update() {
   }
 }
 
-bool HalGPIO::isPressed(uint8_t buttonIndex) const {
-  return buttonIndex < kButtonCount && pressed[buttonIndex];
-}
+bool HalGPIO::isPressed(uint8_t buttonIndex) const { return buttonIndex < kButtonCount && pressed[buttonIndex]; }
 
-bool HalGPIO::wasPressed(uint8_t buttonIndex) const {
-  return buttonIndex < kButtonCount && pressEdge[buttonIndex];
-}
+bool HalGPIO::wasPressed(uint8_t buttonIndex) const { return buttonIndex < kButtonCount && pressEdge[buttonIndex]; }
 
-bool HalGPIO::wasReleased(uint8_t buttonIndex) const {
-  return buttonIndex < kButtonCount && releaseEdge[buttonIndex];
-}
+bool HalGPIO::wasReleased(uint8_t buttonIndex) const { return buttonIndex < kButtonCount && releaseEdge[buttonIndex]; }
 
 bool HalGPIO::wasAnyPressed() const {
   for (uint8_t b = 0; b < kButtonCount; ++b)

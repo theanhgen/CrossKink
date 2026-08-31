@@ -39,8 +39,7 @@ constexpr int8_t TOP_CLOCK_TEXT_PADDING = 0;
 // kUprightOrientation is what the hardcoded setOrientation(Portrait) calls
 // scattered through the reader activities should mean: "upright, as the user
 // holds the device".
-inline constexpr GfxRenderer::Orientation kUprightOrientation =
-    GfxRenderer::Orientation::LandscapeCounterClockwise;
+inline constexpr GfxRenderer::Orientation kUprightOrientation = GfxRenderer::Orientation::LandscapeCounterClockwise;
 
 inline GfxRenderer::Orientation toRendererOrientation(const uint8_t orientation) {
   switch (orientation) {

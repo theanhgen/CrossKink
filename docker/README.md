@@ -46,7 +46,7 @@ mandatory and both were measured, not guessed:
 ```sh
 docker run --rm --platform linux/amd64 --ulimit stack=-1 -v "$PWD":/proj -w /proj kindle-xc bash -c '
   ulimit -s unlimited
-  cmake -B build -DCMAKE_TOOLCHAIN_FILE=cmake/kindle-toolchain.cmake -DCMAKE_BUILD_TYPE=MinSizeRel .
+  cmake -S platform/kindle -B build -DCMAKE_TOOLCHAIN_FILE=$PWD/cmake/kindle-toolchain.cmake -DCMAKE_BUILD_TYPE=MinSizeRel
   cmake --build build -j1
 '
 ```

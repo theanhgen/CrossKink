@@ -5,10 +5,16 @@
 # set, defines and include paths below mirror it deliberately - when upstream
 # changes that environment, this is the file that has to follow.
 #
-#   cmake -B build -DCMAKE_TOOLCHAIN_FILE=cmake/kindle-toolchain.cmake
-#   cmake --build build -j
+#   cmake -S platform/kindle -B build \
+#         -DCMAKE_TOOLCHAIN_FILE=cmake/kindle-toolchain.cmake
+#   cmake --build build -j1
 #
 # See BUILD.md; this must run in a Linux container (the toolchain is x86-64 ELF).
+#
+# It lives here rather than at the repo root ON PURPOSE. PlatformIO's ESP32
+# build does "Reading CMake configuration..." against the project root, so a
+# root CMakeLists.txt is picked up by `pio run` and `pio check` and breaks
+# both. Upstream has no root CMakeLists.txt; neither should this fork.
 
 cmake_minimum_required(VERSION 3.16)
 project(crossink-kindle LANGUAGES C CXX)
@@ -24,16 +30,19 @@ endif()
 
 # This repo IS CrossInk (a fork), so CROSSINK is the source root itself.
 # freeink-sdk is CrossInk's own submodule; only the simulator is added by us.
-set(VENDOR    ${CMAKE_SOURCE_DIR}/vendor)
-set(CROSSINK  ${CMAKE_SOURCE_DIR})
-set(SDK       ${CMAKE_SOURCE_DIR}/freeink-sdk)
+get_filename_component(REPO ${CMAKE_CURRENT_SOURCE_DIR}/../.. ABSOLUTE)
+set(VENDOR    ${REPO}/vendor)
+set(CROSSINK  ${REPO})
+set(SDK       ${REPO}/freeink-sdk)
 set(SIM       ${VENDOR}/simulator)
 set(LIBDEPS   ${CROSSINK}/.pio/libdeps/simulator)
-set(PLATFORM  ${CMAKE_SOURCE_DIR}/platform/kindle)
+set(PLATFORM  ${CMAKE_CURRENT_SOURCE_DIR})
 
 foreach(d ${CROSSINK} ${SDK} ${SIM} ${LIBDEPS})
   if(NOT EXISTS ${d})
-    message(FATAL_ERROR "missing ${d} - run scripts/bootstrap.sh first")
+    message(FATAL_ERROR "missing ${d}\n"
+      "  freeink-sdk, vendor/simulator : git submodule update --init --recursive\n"
+      "  .pio/libdeps/simulator        : pio pkg install -e simulator")
   endif()
 endforeach()
 

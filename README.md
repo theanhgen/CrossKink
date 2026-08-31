@@ -74,7 +74,7 @@ git clone https://github.com/theanhgen/CrossKink
 cd CrossKink
 scripts-kindle/bootstrap.sh            # pins submodules, applies the simulator patch
 ulimit -s unlimited                    # required: 512 MB is not enough for cc1plus
-cmake -B build -DCMAKE_TOOLCHAIN_FILE=cmake/kindle-toolchain.cmake
+cmake -S platform/kindle -B build -DCMAKE_TOOLCHAIN_FILE=$PWD/cmake/kindle-toolchain.cmake
 cmake --build build -j1                # required: parallel builds exhaust memory
 ```
 

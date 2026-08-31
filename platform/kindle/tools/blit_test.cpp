@@ -1,9 +1,10 @@
 // Host test: the fast 1bpp->4bpp path must be byte-identical to the reference.
-#include "../KindleBlit.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
+
+#include "../KindleBlit.h"
 
 static int failures = 0;
 
@@ -14,8 +15,8 @@ static void check(const char* name, bool ok) {
 
 int main() {
   const int widthPixels = 600;
-  const int widthBytes = widthPixels / 8;   // 75
-  const int dstBytes = widthPixels / 2;     // 300
+  const int widthBytes = widthPixels / 8;  // 75
+  const int dstBytes = widthPixels / 2;    // 300
 
   // Measured panel palette: inverted, so a set bit (white) is nibble 0x0.
   const uint8_t white = 0x0, black = 0xF;
@@ -29,14 +30,19 @@ int main() {
     std::vector<uint8_t> a(dstBytes, 0xAA), b2(dstBytes, 0x55);  // different fill
     kindleblit::packRowReference(src.data(), a.data(), widthPixels, white, black, true);
     kindleblit::packRowFast(src.data(), b2.data(), widthBytes, white, black);
-    if (std::memcmp(a.data(), b2.data(), dstBytes) != 0) { allMatch = false; break; }
+    if (std::memcmp(a.data(), b2.data(), dstBytes) != 0) {
+      allMatch = false;
+      break;
+    }
   }
   check("fast == reference over 400 random rows", allMatch);
 
   // Edge patterns that a shift/mask bug would survive random testing on.
-  const uint8_t pats[][4] = {{0x00,0x00,0x00,0x00},{0xFF,0xFF,0xFF,0xFF},
-                             {0x80,0x00,0x00,0x01},{0xAA,0x55,0xAA,0x55},
-                             {0x01,0x80,0x0F,0xF0}};
+  const uint8_t pats[][4] = {{0x00, 0x00, 0x00, 0x00},
+                             {0xFF, 0xFF, 0xFF, 0xFF},
+                             {0x80, 0x00, 0x00, 0x01},
+                             {0xAA, 0x55, 0xAA, 0x55},
+                             {0x01, 0x80, 0x0F, 0xF0}};
   bool edgeOk = true;
   for (auto& p : pats) {
     std::vector<uint8_t> src(widthBytes);
@@ -55,8 +61,7 @@ int main() {
     src[0] = 0x80;  // only pixel 0 set
     std::vector<uint8_t> d(dstBytes, 0);
     kindleblit::packRowFast(src.data(), d.data(), widthBytes, white, black);
-    check("pixel 0 -> high nibble of byte 0",
-          ((d[0] >> 4) & 0xF) == white && (d[0] & 0xF) == black);
+    check("pixel 0 -> high nibble of byte 0", ((d[0] >> 4) & 0xF) == white && (d[0] & 0xF) == black);
   }
 
   // Polarity actually applied: an all-set row must be entirely 'white'.

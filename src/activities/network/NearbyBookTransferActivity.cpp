@@ -1,5 +1,4 @@
 #include "NearbyBookTransferActivity.h"
-#include "activities/reader/ReaderUtils.h"  // KINDLE FORK: kUprightOrientation
 
 #include <Arduino.h>
 #include <FsHelpers.h>
@@ -17,6 +16,7 @@
 #include "MappedInputManager.h"
 #include "SilentRestart.h"
 #include "activities/home/FileBrowserActivity.h"
+#include "activities/reader/ReaderUtils.h"  // KINDLE FORK: kUprightOrientation
 #include "components/TouchHeaderBackButton.h"
 #include "components/UITheme.h"
 #include "fontIds.h"

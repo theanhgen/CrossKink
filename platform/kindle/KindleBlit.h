@@ -14,8 +14,8 @@ namespace kindleblit {
 
 // Reference implementation: one pixel at a time. Obvious, slow, and the
 // oracle the fast path is tested against.
-inline void packRowReference(const uint8_t* src, uint8_t* dst, int widthPixels, uint8_t white,
-                             uint8_t black, bool highNibbleIsLeftPixel) {
+inline void packRowReference(const uint8_t* src, uint8_t* dst, int widthPixels, uint8_t white, uint8_t black,
+                             bool highNibbleIsLeftPixel) {
   for (int x = 0; x < widthPixels; ++x) {
     const bool set = (src[x / 8] & (1u << (7 - (x % 8)))) != 0;
     const uint8_t nib = set ? white : black;
@@ -32,8 +32,7 @@ inline void packRowReference(const uint8_t* src, uint8_t* dst, int widthPixels, 
 // Fast path: one source byte (8 px) becomes four destination bytes via a
 // 4-entry lookup, with no per-pixel arithmetic. Only valid for the common
 // layout where the high nibble holds the left pixel.
-inline void packRowFast(const uint8_t* src, uint8_t* dst, int widthBytes, uint8_t white,
-                        uint8_t black) {
+inline void packRowFast(const uint8_t* src, uint8_t* dst, int widthBytes, uint8_t white, uint8_t black) {
   const uint8_t ww = static_cast<uint8_t>((white << 4) | white);
   const uint8_t wb = static_cast<uint8_t>((white << 4) | black);
   const uint8_t bw = static_cast<uint8_t>((black << 4) | white);

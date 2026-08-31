@@ -20,11 +20,16 @@ docker build --platform linux/amd64 -t kindle-xc -f docker/Dockerfile .   # see 
 
 docker run --rm --platform linux/amd64 --ulimit stack=-1 -v "$PWD":/proj -w /proj kindle-xc bash -c '
   ulimit -s unlimited
-  cmake -B build -DCMAKE_TOOLCHAIN_FILE=cmake/kindle-toolchain.cmake -DCMAKE_BUILD_TYPE=MinSizeRel .
+  cmake -S platform/kindle -B build -DCMAKE_TOOLCHAIN_FILE=$PWD/cmake/kindle-toolchain.cmake -DCMAKE_BUILD_TYPE=MinSizeRel
   cmake --build build -j1
 '
 colima stop
 ```
+
+`-S platform/kindle` is not cosmetic. PlatformIO's ESP32 build does
+"Reading CMake configuration..." against the project root, so a root
+`CMakeLists.txt` gets picked up by `pio run` and `pio check` and fails both.
+Upstream has none; neither does this fork.
 
 ## The three rules that make it work
 
